@@ -10,6 +10,34 @@ img.addEventListener('load', () => {
   // - Fill the whole Canvas with black first to add borders on non-square images, then draw on top
   // - Clear the form when a new image is selected
   // - If you draw the image to canvas here, it will update as soon as a new image is selected
+
+  // get info about canvas
+  let canvas = document.getElementById('user-image');
+  let canvasWidth = canvas.width;
+  let canvasHeight = canvas.height;
+
+  // get context
+  let context = canvas.getContext('2d');
+
+  // clear canvas context
+  context.clearRect(0,0,canvasWidth,canvasHeight);
+
+  // toggle relevant buttons by disabling or enabling as needed - disable clear and read text, enable generate
+  // these will be enabled again when the user clicks generate
+  // disable clear button
+  document.querySelector("[type='reset']").disabled = true;
+  // disable read text button
+  document.querySelector("[type='button']").disabled = true;
+  // enable generate button
+  document.querySelector("[type='submit'").disabled = false;
+
+  // fill canvas context with black
+  context.fillStyle = 'black';
+  context.fillRect(0,0,canvasWidth,canvasHeight);
+
+  // draw uploaded image onto the canvas
+  let dimensions = getDimmensions(canvasWidth, canvasHeight, img.width, img.height);
+  context.drawImage(img, dimensions.startX, dimensions.startY, dimensions.width, dimensions.height);
 });
 
 /**
