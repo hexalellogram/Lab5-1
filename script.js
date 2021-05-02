@@ -71,6 +71,9 @@ submissionForm.addEventListener('submit', (evt) => {
   context.fillText(bottomText, canvas.width / 2, canvas.height - 40);
 
   // todo toggle buttons
+  generateBtn.disabled = true;
+  clearBtn.disabled = false;
+  readBtn.disabled = false;
 });
 
 /**
