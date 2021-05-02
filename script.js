@@ -9,6 +9,7 @@ const generateBtn = document.querySelector("[type='submit'");
 const fileChooser = document.getElementById('image-input');
 const submissionForm = document.getElementById('generate-meme');
 const voiceSelect = document.getElementById('voice-selection');
+const volumeGroup = document.getElementById('volume-group');
 
 // get canvas and context
 const canvas = document.getElementById('user-image');
@@ -17,6 +18,7 @@ const context = canvas.getContext('2d');
 // declaration for speech synthesis
 const synth = window.speechSynthesis;
 let voices = [];
+let volumeLevel = document.querySelector("[type='range']").value / 100;
 
 // Fires whenever the img object loads a new image (such as with img.src =)
 img.addEventListener('load', () => {
@@ -104,6 +106,7 @@ readBtn.addEventListener('click', () => {
   // get speech details
   let utterThis = new SpeechSynthesisUtterance(combinedText);
   utterThis.voice = voices[voiceSelect.selectedOptions[0].getAttribute('voices-idx')];
+  utterThis.volume = volumeLevel;
   synth.speak(utterThis);
 });
 
@@ -134,6 +137,28 @@ populateVoiceList();
 if (speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = populateVoiceList;
 }
+
+// if any input into the volume group, this triggers
+volumeGroup.addEventListener('input', () => {
+  // set new volume level, normalized to 0-1
+  let intVol = document.querySelector("[type='range']").value;
+  volumeLevel = intVol / 100;
+
+  // change the volume icons
+  let volumeIcon = document.querySelectorAll('img')[0];
+  if (intVol == 0) {
+    volumeIcon.src = 'icons/volume-level-0.svg';
+  }
+  else if (intVol <= 33) {
+    volumeIcon.src = 'icons/volume-level-1.svg';
+  }
+  else if (intVol <= 66) {
+    volumeIcon.src = 'icons/volume-level-2.svg';
+  }
+  else {
+    volumeIcon.src = 'icons/volume-level-3.svg';
+  }
+});
 
 /**
  * Takes in the dimensions of the canvas and the new image, then calculates the new
