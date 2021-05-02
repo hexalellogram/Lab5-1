@@ -40,6 +40,37 @@ img.addEventListener('load', () => {
   context.drawImage(img, dimensions.startX, dimensions.startY, dimensions.width, dimensions.height);
 });
 
+const fileChooser = document.getElementById('image-input');
+fileChooser.addEventListener('change', () => {
+  // load image
+  img.src = URL.createObjectURL(fileChooser.files[0]);
+
+  // set alt text
+  let fileName = fileChooser.files[0].name;
+  img.alt = fileName;
+});
+
+const submissionForm = document.getElementById('generate-meme');
+submissionForm.addEventListener('submit', (evt) => {
+  // prevent reloading
+  evt.preventDefault();
+
+  // get top and bottom text
+  let topText = document.getElementById('text-top').value;
+  let bottomText = document.getElementById('text-bottom').value;
+
+  // get context
+  let canvas = document.getElementById('user-image');
+  let context = canvas.getContext('2d');
+  
+  // draw the top and bottom text
+  context.font = '40px Impact';
+  context.textAlign = 'center';
+  context.fillStyle = 'white';
+  context.fillText(topText, canvas.width / 2, 50);
+  context.fillText(bottomText, canvas.width / 2, canvas.height - 50);
+});
+
 /**
  * Takes in the dimensions of the canvas and the new image, then calculates the new
  * dimensions of the image so that it fits perfectly into the Canvas and maintains aspect ratio
