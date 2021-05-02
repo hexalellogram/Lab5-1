@@ -8,10 +8,15 @@ const readBtn = document.querySelector("[type='button']");
 const generateBtn = document.querySelector("[type='submit'");
 const fileChooser = document.getElementById('image-input');
 const submissionForm = document.getElementById('generate-meme');
+const voiceSelect = document.getElementById('voice-selection');
 
 // get canvas and context
 const canvas = document.getElementById('user-image');
 const context = canvas.getContext('2d');
+
+// declaration for speech synthesis
+const synth = window.speechSynthesis;
+let voices = [];
 
 // Fires whenever the img object loads a new image (such as with img.src =)
 img.addEventListener('load', () => {
@@ -88,6 +93,47 @@ clearBtn.addEventListener('click', () => {
   readBtn.disabled = true;
 
 });
+
+// when the read button is clicked, read out the text
+readBtn.addEventListener('click', () => {
+  // get top and bottom text and combine into one
+  let topText = document.getElementById('text-top').value;
+  let bottomText = document.getElementById('text-bottom').value;
+  let combinedText = topText + ' ' + bottomText;
+
+  // get speech details
+  let utterThis = new SpeechSynthesisUtterance(combinedText);
+  utterThis.voice = voices[voiceSelect.selectedOptions[0].getAttribute('voices-idx')];
+  synth.speak(utterThis);
+});
+
+// populate voices list - code taken from https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis example
+function populateVoiceList() {
+  voices = synth.getVoices();
+
+  // remove placeholder "No available voice options"
+  voiceSelect.remove(0);
+  for(let i = 0; i < voices.length ; i++) {
+    // console.log(voices[i].name);
+    let option = document.createElement('option');
+    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+
+    if(voices[i].default) {
+      option.textContent += ' -- DEFAULT';
+    }
+
+    option.setAttribute('data-lang', voices[i].lang);
+    option.setAttribute('data-name', voices[i].name);
+    option.setAttribute('voices-idx', i);
+    voiceSelect.appendChild(option);
+  }
+  voiceSelect.disabled = false;
+}
+
+populateVoiceList();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = populateVoiceList;
+}
 
 /**
  * Takes in the dimensions of the canvas and the new image, then calculates the new
