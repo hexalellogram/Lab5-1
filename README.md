@@ -6,7 +6,7 @@
 
 ## Part 1:
 
-LINK TO YOUR PUBLISHED SITE
+[Click here to visit the published site](https://brycetsuyuki.com/Lab5-1/)
 
 ## Part 2:
 
