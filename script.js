@@ -46,6 +46,7 @@ img.addEventListener('load', () => {
   context.drawImage(img, dimensions.startX, dimensions.startY, dimensions.width, dimensions.height);
 });
 
+// fires when file is chosen
 fileChooser.addEventListener('change', () => {
   // load image
   img.src = URL.createObjectURL(fileChooser.files[0]);
@@ -55,6 +56,7 @@ fileChooser.addEventListener('change', () => {
   img.alt = fileName;
 });
 
+// when submission button clicked
 submissionForm.addEventListener('submit', (evt) => {
   // prevent reloading
   evt.preventDefault();
@@ -70,10 +72,21 @@ submissionForm.addEventListener('submit', (evt) => {
   context.fillText(topText, canvas.width / 2, 40);
   context.fillText(bottomText, canvas.width / 2, canvas.height - 40);
 
-  // todo toggle buttons
+  // toggle buttons
   generateBtn.disabled = true;
   clearBtn.disabled = false;
   readBtn.disabled = false;
+});
+
+// when the clear button is clicked, clear out the meme
+clearBtn.addEventListener('click', () => {
+  context.clearRect(0,0,canvas.width,canvas.height);
+
+  // toggle buttons
+  generateBtn.disabled = false;
+  clearBtn.disabled = true;
+  readBtn.disabled = true;
+
 });
 
 /**
