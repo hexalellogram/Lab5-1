@@ -2,9 +2,19 @@
 
 const img = new Image(); // used to load image from <input> and draw to canvas
 
+// declarations for common parts of the page
+const clearBtn = document.querySelector("[type='reset']");
+const readBtn = document.querySelector("[type='button']");
+const generateBtn = document.querySelector("[type='submit'");
+const fileChooser = document.getElementById('image-input');
+const submissionForm = document.getElementById('generate-meme');
+
+// get canvas and context
+const canvas = document.getElementById('user-image');
+const context = canvas.getContext('2d');
+
 // Fires whenever the img object loads a new image (such as with img.src =)
 img.addEventListener('load', () => {
-  // TODO
 
   // Some helpful tips:
   // - Fill the whole Canvas with black first to add borders on non-square images, then draw on top
@@ -12,12 +22,8 @@ img.addEventListener('load', () => {
   // - If you draw the image to canvas here, it will update as soon as a new image is selected
 
   // get info about canvas
-  let canvas = document.getElementById('user-image');
   let canvasWidth = canvas.width;
   let canvasHeight = canvas.height;
-
-  // get context
-  let context = canvas.getContext('2d');
 
   // clear canvas context
   context.clearRect(0,0,canvasWidth,canvasHeight);
@@ -25,11 +31,11 @@ img.addEventListener('load', () => {
   // toggle relevant buttons by disabling or enabling as needed - disable clear and read text, enable generate
   // these will be enabled again when the user clicks generate
   // disable clear button
-  document.querySelector("[type='reset']").disabled = true;
+  clearBtn.disabled = true;
   // disable read text button
-  document.querySelector("[type='button']").disabled = true;
+  readBtn.disabled = true;
   // enable generate button
-  document.querySelector("[type='submit'").disabled = false;
+  generateBtn.disabled = false;
 
   // fill canvas context with black
   context.fillStyle = 'black';
@@ -40,7 +46,6 @@ img.addEventListener('load', () => {
   context.drawImage(img, dimensions.startX, dimensions.startY, dimensions.width, dimensions.height);
 });
 
-const fileChooser = document.getElementById('image-input');
 fileChooser.addEventListener('change', () => {
   // load image
   img.src = URL.createObjectURL(fileChooser.files[0]);
@@ -50,7 +55,6 @@ fileChooser.addEventListener('change', () => {
   img.alt = fileName;
 });
 
-const submissionForm = document.getElementById('generate-meme');
 submissionForm.addEventListener('submit', (evt) => {
   // prevent reloading
   evt.preventDefault();
@@ -58,17 +62,15 @@ submissionForm.addEventListener('submit', (evt) => {
   // get top and bottom text
   let topText = document.getElementById('text-top').value;
   let bottomText = document.getElementById('text-bottom').value;
-
-  // get context
-  let canvas = document.getElementById('user-image');
-  let context = canvas.getContext('2d');
   
   // draw the top and bottom text
   context.font = '40px Impact';
   context.textAlign = 'center';
   context.fillStyle = 'white';
-  context.fillText(topText, canvas.width / 2, 50);
-  context.fillText(bottomText, canvas.width / 2, canvas.height - 50);
+  context.fillText(topText, canvas.width / 2, 40);
+  context.fillText(bottomText, canvas.width / 2, canvas.height - 40);
+
+  // todo toggle buttons
 });
 
 /**
