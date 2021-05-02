@@ -10,4 +10,4 @@
 
 ## Part 2
 
-[Click here to visit the part 2 repository](https://github.com/hexalellogram/github-actions-for-ci)
+[Click here to visit the part 2 repository last issue](https://github.com/hexalellogram/github-actions-for-ci/issues/7)
